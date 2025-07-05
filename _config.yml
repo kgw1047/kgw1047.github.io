@@ -104,11 +104,11 @@ analytics:
 
 # Site Author
 author:
-  name             : "JiYeop Kim"
+  name             : "Kunwoo Kim"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Diffusion은 신이고 GPT는 무적이다"
+  bio              : "Loss는 줄어도 혼란은 늘어만 간다."
   location         : "Seoul, Korea"
-  email            : "99edward@snu.ac.kr"
+  email            : "kgw1047@gmail.com"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
@@ -124,7 +124,7 @@ author:
       # url: "https://facebook.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/kimjy99"
+      url: "https://github.com/kgw1047"
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       # url: "https://instagram.com/"
