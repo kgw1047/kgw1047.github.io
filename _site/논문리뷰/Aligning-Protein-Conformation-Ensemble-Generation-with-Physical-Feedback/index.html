@@ -1,0 +1,476 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.27.1 by Michael Rose
+  Copyright 2013-2025 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Aligning Protein Conformation Ensemble Generation with Physical Feedback - All is well</title>
+<meta name="description" content="ICML 2025. [Paper] Jiarui Lu, Xiaoyin Chen, Stephen Zhewen Lu, Aurélie Lozano, Vijil Chenthamarakshan, Payel Das, Jian Tang 30 May 2025">
+
+
+  <meta name="author" content="Kunwoo Kim">
+  
+  <meta property="article:author" content="Kunwoo Kim">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="All is well">
+<meta property="og:title" content="Aligning Protein Conformation Ensemble Generation with Physical Feedback">
+<meta property="og:url" content="http://localhost:4000/%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0/Aligning-Protein-Conformation-Ensemble-Generation-with-Physical-Feedback/">
+
+
+  <meta property="og:description" content="ICML 2025. [Paper] Jiarui Lu, Xiaoyin Chen, Stephen Zhewen Lu, Aurélie Lozano, Vijil Chenthamarakshan, Payel Das, Jian Tang 30 May 2025">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-06-29T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2025-06-29T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0/Aligning-Protein-Conformation-Ensemble-Generation-with-Physical-Feedback/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="All is well Feed">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          All is well
+          
+        </a>
+        <ul class="visible-links"></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0" itemprop="item"><span itemprop="name">논문리뷰</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Aligning Protein Conformation Ensemble Generation with Physical Feedback</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">Kunwoo Kim</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>Grad student in biophysics.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:kgw1047@gmail.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/kgw1047" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Aligning Protein Conformation Ensemble Generation with Physical Feedback">
+    <meta itemprop="description" content="  ICML 2025. [Paper]Jiarui Lu, Xiaoyin Chen, Stephen Zhewen Lu, Aurélie Lozano, Vijil Chenthamarakshan, Payel Das, Jian Tang30 May 2025">
+    <meta itemprop="datePublished" content="2025-06-29T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2025-06-29T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">
+            <a href="http://localhost:4000/%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0/Aligning-Protein-Conformation-Ensemble-Generation-with-Physical-Feedback/" itemprop="url">Aligning Protein Conformation Ensemble Generation with Physical Feedback
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-06-29T00:00:00+09:00">June 29, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <blockquote>
+  <p>ICML 2025. [<a href="https://openreview.net/forum?id=Asr955jcuZ&amp;noteId=L9xGstsHvD">Paper</a>]<br />
+Jiarui Lu, Xiaoyin Chen, Stephen Zhewen Lu, Aurélie Lozano, Vijil Chenthamarakshan, Payel Das, Jian Tang<br />
+30 May 2025</p>
+</blockquote>
+
+<h1 id="keypoints">Keypoints</h1>
+<h2 id="diffusion-based-generative-model--energy-based-alignment">Diffusion-based Generative Model + Energy-based Alignment</h2>
+<ul>
+  <li><strong>Boltzmann Factor</strong>: 분배함수 계산을 피하기 위해 두 구조의 에너지 차이를 활용</li>
+  <li><strong>Finite-state Approximation</strong>: 전체 분배함수 계산이 불가능하므로 미니배치 단위로 분배함수 계산</li>
+  <li><strong>Loss Function</strong>:</li>
+</ul>
+
+<h1 id="limitations">Limitations</h1>
+<ol>
+  <li>AlphaFold3 구조의 모델을 사용했기 때문에 long time generation에 적합하지 않다.</li>
+  <li>Energy, 즉 forcefield의 정확도 문제.</li>
+  <li>Monomer만 가능.</li>
+  <li>다른 generative model의 가능성(flow matching 같은)</li>
+</ol>
+
+<h1 id="references">References</h1>
+<h2 id="protein-conformation-generations">Protein Conformation Generations</h2>
+<ul>
+  <li><a href="https://arxiv.org/abs/1812.01729">Boltzmann generator</a></li>
+  <li><a href="https://arxiv.org/abs/2304.02198">EigenFold</a></li>
+  <li><a href="http://arxiv.org/abs/2306.03117">Str2Str</a></li>
+  <li><a href="https://arxiv.org/abs/2405.18428">DiG</a></li>
+  <li><a href="https://arxiv.org/abs/2403.14088">ConfDiff</a></li>
+  <li><a href="http://arxiv.org/abs/2402.04845">AlphaFlow</a></li>
+  <li><a href="https://arxiv.org/abs/2410.18403">ESMDiff</a></li>
+  <li><a href="https://arxiv.org/abs/2409.17808">MDGen</a></li>
+</ul>
+
+<h2 id="alignment-methods-for-generative-models">Alignment methods for generative models</h2>
+<ul>
+  <li><a href="https://arxiv.org/abs/2311.12908">Diffusion-DPO</a></li>
+  <li><a href="https://arxiv.org/html/2403.16576v1">ABDPO</a></li>
+  <li><a href="https://arxiv.org/abs/2407.01648">ALIDIFF</a></li>
+  <li><a href="https://arxiv.org/abs/2407.13981">DECOMPDPO</a></li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#diffusion-model" class="page__taxonomy-item p-category" rel="tag">Diffusion Model</a><span class="sep">, </span>
+    
+      <a href="/tags/#icml" class="page__taxonomy-item p-category" rel="tag">ICML</a><span class="sep">, </span>
+    
+      <a href="/tags/#protein-ensemble" class="page__taxonomy-item p-category" rel="tag">Protein Ensemble</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0" class="page__taxonomy-item p-category" rel="tag">논문리뷰</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2025-06-29">June 29, 2025</time></p>
+
+      </footer>
+
+      
+
+      
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="mailto:kgw1047@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/kgw1047" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 <a href="http://localhost:4000">All is well</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

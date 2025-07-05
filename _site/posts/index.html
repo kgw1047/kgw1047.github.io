@@ -22,7 +22,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="All is well">
 <meta property="og:title" content="All is well">
-<meta property="og:url" content="http://localhost:4000/">
+<meta property="og:url" content="http://localhost:4000/posts/">
 
 
   <meta property="og:description" content="기록용 페이지.">
@@ -42,20 +42,10 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/">
+<link rel="canonical" href="http://localhost:4000/posts/">
 
 
 
-
-
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-    "name": "Kunwoo Kim",
-    "url": "http://localhost:4000/"
-}
-</script>
 
 
 
@@ -92,7 +82,7 @@
 
   </head>
 
-  <body class="layout--home" dir="ltr">
+  <body class="layout--posts" dir="ltr">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -128,6 +118,33 @@
     <div class="initial-content">
       
 
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        <li class="current"></li>
+      
+    
+  </ol>
+</nav>
+
+  
 
 
 <div id="main" role="main">
@@ -243,17 +260,26 @@
     
     
 
-<h3 class="archive__subtitle">Recent posts</h3>
 
-
-
-
-<div class="entries-list">
+<ul class="taxonomy__index">
   
+  
+    <li>
+      <a href="#2025">
+        <strong>2025</strong> <span class="taxonomy__count">1</span>
+      </a>
+    </li>
+  
+</ul>
 
 
 
 
+  <section id="2025" class="taxonomy__section">
+    <h2 class="archive__subtitle">2025</h2>
+    <div class="entries-list">
+      
+        
 
 
 
@@ -294,9 +320,10 @@ Jiarui Lu, Xiaoyin Chen, Stephen Zhewen Lu, Aurélie Lozano, Vijil Chenthamaraks
   </article>
 </div>
 
-</div>
-
-
+      
+    </div>
+    <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+  </section>
 
 
   </div>
