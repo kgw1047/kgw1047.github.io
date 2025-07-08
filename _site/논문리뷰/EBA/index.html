@@ -400,40 +400,29 @@ Pre-trained된 all-atom 모델은 생성 과정에서 force field으로부터 �
 L_{DPO}(\theta)=-\mathbb{E}_{(c, x^w, x^l)\sim D}log(\alpha log\frac{p_\theta(x^w | c)}{p_{ref}(x^w|c)} - \alpha log\frac{p_\theta(x^l | c)}{p_{ref}(x^l|c)})
 \end{equation}\]
 
-<table>
-  <tbody>
-    <tr>
-      <td>이 때, $x^w$는 선호되는 데이터(결과물), $x^l$은 선호되지 않는 데이터(결과물)을 의미하며, $p_\theta(x</td>
-      <td>c)$는 학습을 진행하는 모델이 condition $c$에 따라 $x$를 생성할 확률, $p_{ref}(x</td>
-      <td>c)$는 이미 학습된 모델(해당 논문에서는 pre-trained model인 <a href="https://github.com/bytedance/Protenix"><strong>Protenix</strong></a>)이 condition $c$에 따라 $x$를 생성할 확률이다.</td>
-    </tr>
-    <tr>
-      <td>위 $loss$ 함수를 살펴보면, 결국 선호되는 결과물에 대한 확률은 높이고 선호되지 않는 결과물의 확률은 낮추는 목적함수를 나타내고 있음을 알 수 있다. $p_{ref}(x</td>
-      <td>c)$는 pre-trained model의 학습된 정보를 어느 정도 유지하게 해주는 regularization term이라고 볼 수 있다.</td>
-      <td> </td>
-    </tr>
-  </tbody>
-</table>
+<p>이 때, $x^w$는 선호되는 데이터(결과물), $x^l$은 선호되지 않는 데이터(결과물)을 의미하며, $p_\theta(x \mid c)$는 학습을 진행하는 모델이 condition $c$에 따라 $x$를 생성할 확률, $p_{ref}(x \mid c)$는 이미 학습된 모델(해당 논문에서는 pre-trained model인 <a href="https://github.com/bytedance/Protenix"><strong>Protenix</strong></a>)이 condition $c$에 따라 $x$를 생성할 확률이다.<br />
+위 $loss$ 함수를 살펴보면, 결국 선호되는 결과물에 대한 확률은 높이고 선호되지 않는 결과물의 확률은 낮추는 목적함수를 나타내고 있음을 알 수 있다. $p_{ref}(x \mid c)$는 pre-trained model의 학습된 정보를 어느 정도 유지하게 해주는 regularization term이라고 볼 수 있다.</p>
 
 <h1 id="method">Method</h1>
 <h2 id="energy-based-alignment">Energy-based Alignment</h2>
 <p align="center">
-  <img src="/assets/img/EBA/EBA-fig1.png" width="63%" />
+  <img src="/assets/img/EBA/EBA-fig1.png" width="80%" />
 </p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>아미노산 서열과 같은 조건 $c$가 주어졌을 때, 우리는 볼츠만 분포를 따르는 ${x^i}$를 샘플링해내는 것이 목표이다. 결국 $\beta \triangleq \frac{1}{k_BT}$일 때, $p_{B}(x</td>
-      <td>c)=\frac{e^{-\beta E(x;c)}}{Z}$를 알아내고 싶은 것인데, 존재할 수 있는 모든 상태를 알고 있지 않는 한 이는 불가능하다. 따라서 저자들은 정확한 $p_\theta(x</td>
-      <td>c)$를 모델링하는 것이 아닌 Boltzmann factor를 모델링하는 것을 목표한다.</td>
-    </tr>
-  </tbody>
-</table>
+<p>아미노산 서열과 같은 조건 $c$가 주어졌을 때, 우리는 볼츠만 분포를 따르는 ${x^i}$를 샘플링해내는 것이 목표이다. 결국 $\beta \triangleq \frac{1}{k_BT}$일 때, $p_{B}(x \mid c)=\frac{e^{-\beta E(x;c)}}{Z}$를 알아내고 싶은 것인데, 존재할 수 있는 모든 상태를 알고 있지 않는 한 이는 불가능하다. 따라서 저자들은 정확한 $p_\theta(x \mid c)$를 모델링하는 것이 아닌 Boltzmann factor를 모델링하는 것을 목표한다.</p>
 
-<p>Boltzmann factor란 두 상태의 확률의 비율이다: $\frac{p_B(x^i|c)}{p_B(x^j|c)} = e^{-\beta \Delta E_{ij}}$, $\Delta E_{ij} = E(x^i;c) - E(x^j;c)$<br />
-이를 위해 저자들은 cross entropy를 통해 확률분포 $p_\theta$를 모델링하는데, 아래와 같은 $L_{EBA}$를 제안한다.
-\(L_{EBA} = -\mathbb{E}_{(c, \{x^i\}) \sim p^*}[\sum^{K}_{i=1}{\frac{e^{-\beta E(x^i ; c)}}{\sum^{K}_{j=1}{e^{-\beta E(x^j;c)}}}} log(\frac{e^{-\alpha E_{\theta}(x^i ; c)}}{\sum^{K}_{j=1}{e^{-\alpha E_{\theta}(x^j;c)}}})]\)
+<p>Boltzmann factor란 두 상태의 확률의 비율이다: 
+\(\begin{equation}
+\frac{p_B(x^i \mid c)}{p_B(x^j \mid c)} = e^{-\beta \Delta E_{ij}}
+\end{equation}\)
+\(\begin{equation}
+\Delta E_{ij} = E(x^i;c) - E(x^j;c)
+\end{equation}\)</p>
+
+<p>이를 위해 저자들은 cross entropy를 통해 확률분포 $p_\theta$를 모델링하는데, 아래와 같은 $L_{EBA}$를 제안한다.
+\(\begin{equation}
+L_{EBA} = -\mathbb{E}_{(c, \{x^i\}) \sim p^*}[\sum^{K}_{i=1}{\frac{e^{-\beta E(x^i ; c)}}{\sum^{K}_{j=1}{e^{-\beta E(x^j;c)}}}} log(\frac{e^{-\alpha E_{\theta}(x^i ; c)}}{\sum^{K}_{j=1}{e^{-\alpha E_{\theta}(x^j;c)}}})]
+\end{equation}\)
 이를 최소화함으로써 partition function의 부재로 인한 정확한 $p_\theta$는 알 수 없지만, Boltzmann factor는 따르는 확률분포 $p_\theta$를 모델링할 수 있게 된다.</p>
 
 <h2 id="eba-for-diffusion-models">EBA for Diffusion Models</h2>
@@ -616,6 +605,23 @@ L_{DPO}(\theta)=-\mathbb{E}_{(c, x^w, x^l)\sim D}log(\alpha log\frac{p_\theta(x^
 
 
 
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
 
   </body>
 </html>
