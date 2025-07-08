@@ -394,9 +394,11 @@ Pre-trained된 all-atom 모델은 생성 과정에서 force field으로부터 �
 
 <h1 id="preliminaries">Preliminaries</h1>
 <h2 id="direct-preference-optimization">Direct Preference Optimization</h2>
-<p>강화학습의 방식 중 하나로 사용자가 지정한 선호도 데이터 쌍을 통해 모델에 보상을 주어 학습하며 $\mathcal{Loss}$ 함수는 다음과 같다.</p>
+<p>강화학습의 방식 중 하나로 사용자가 지정한 선호도 데이터 쌍을 통해 모델에 보상을 주어 학습하며 $Loss$ 함수는 다음과 같다.</p>
 
-\[L_{DPO}(\theta)=-\mathbb{E}_{(c, x^w, x^l)\sim D}log(\alpha log\frac{p_\theta(x^w | c)}{p_{ref}(x^w|c)} - \alpha log\frac{p_\theta(x^l | c)}{p_{ref}(x^l|c)})\]
+\[\begin{equation}
+L_{DPO}(\theta)=-\mathbb{E}_{(c, x^w, x^l)\sim D}log(\alpha log\frac{p_\theta(x^w | c)}{p_{ref}(x^w|c)} - \alpha log\frac{p_\theta(x^l | c)}{p_{ref}(x^l|c)})
+\end{equation}\]
 
 <table>
   <tbody>

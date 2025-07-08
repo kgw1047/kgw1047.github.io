@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-07-08T13:09:45+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">오버피팅 연대기</title><subtitle>Loss는 줄어도 혼란은 늘어만 간다.</subtitle><author><name>Kunwoo Kim</name><email>kgw1047@gmail.com</email></author><entry><title type="html">Aligning Protein Conformation Ensemble Generation with Physical Feedback</title><link href="http://localhost:4000/%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0/EBA/" rel="alternate" type="text/html" title="Aligning Protein Conformation Ensemble Generation with Physical Feedback" /><published>2025-06-29T00:00:00+09:00</published><updated>2025-07-08T00:00:00+09:00</updated><id>http://localhost:4000/%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0/EBA</id><content type="html" xml:base="http://localhost:4000/%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0/EBA/"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-07-08T13:14:13+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">오버피팅 연대기</title><subtitle>Loss는 줄어도 혼란은 늘어만 간다.</subtitle><author><name>Kunwoo Kim</name><email>kgw1047@gmail.com</email></author><entry><title type="html">Aligning Protein Conformation Ensemble Generation with Physical Feedback</title><link href="http://localhost:4000/%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0/EBA/" rel="alternate" type="text/html" title="Aligning Protein Conformation Ensemble Generation with Physical Feedback" /><published>2025-06-29T00:00:00+09:00</published><updated>2025-07-08T00:00:00+09:00</updated><id>http://localhost:4000/%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0/EBA</id><content type="html" xml:base="http://localhost:4000/%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0/EBA/"><![CDATA[<blockquote>
   <p>ICML 2025. [<a href="https://openreview.net/forum?id=Asr955jcuZ&amp;noteId=L9xGstsHvD">Paper</a>]<br />
 Jiarui Lu, Xiaoyin Chen, Stephen Zhewen Lu, Aurélie Lozano, Vijil Chenthamarakshan, Payel Das, Jian Tang<br />
 30 May 2025</p>
@@ -11,9 +11,11 @@ Pre-trained된 all-atom 모델은 생성 과정에서 force field으로부터 �
 
 <h1 id="preliminaries">Preliminaries</h1>
 <h2 id="direct-preference-optimization">Direct Preference Optimization</h2>
-<p>강화학습의 방식 중 하나로 사용자가 지정한 선호도 데이터 쌍을 통해 모델에 보상을 주어 학습하며 $\mathcal{Loss}$ 함수는 다음과 같다.</p>
+<p>강화학습의 방식 중 하나로 사용자가 지정한 선호도 데이터 쌍을 통해 모델에 보상을 주어 학습하며 $Loss$ 함수는 다음과 같다.</p>
 
-\[L_{DPO}(\theta)=-\mathbb{E}_{(c, x^w, x^l)\sim D}log(\alpha log\frac{p_\theta(x^w | c)}{p_{ref}(x^w|c)} - \alpha log\frac{p_\theta(x^l | c)}{p_{ref}(x^l|c)})\]
+\[\begin{equation}
+L_{DPO}(\theta)=-\mathbb{E}_{(c, x^w, x^l)\sim D}log(\alpha log\frac{p_\theta(x^w | c)}{p_{ref}(x^w|c)} - \alpha log\frac{p_\theta(x^l | c)}{p_{ref}(x^l|c)})
+\end{equation}\]
 
 <table>
   <tbody>
