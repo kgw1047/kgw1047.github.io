@@ -20,7 +20,7 @@ title                    : "오버피팅 연대기"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "kgw1047"
-description              : "Loss는 줄어도 혼란은 늘어만 간다."
+description              : "-"
 url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -106,7 +106,7 @@ analytics:
 author:
   name             : "Kunwoo Kim"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Loss는 줄어도 혼란은 늘어만 간다."
+  bio              : ""
   location         : "Seoul, Korea"
   email            : "kgw1047@gmail.com"
   links:

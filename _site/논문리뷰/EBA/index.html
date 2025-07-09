@@ -149,7 +149,7 @@
     </h3>
     
       <div class="author__bio p-note" itemprop="description">
-        <p>Loss는 줄어도 혼란은 늘어만 간다.</p>
+        
 
       </div>
     
@@ -388,7 +388,7 @@ Jiarui Lu, Xiaoyin Chen, Stephen Zhewen Lu, Aurélie Lozano, Vijil Chenthamaraks
 </blockquote>
 
 <h1 id="introduction">Introduction</h1>
-<p>AlphaFold3와 같은 generative model, 특히 diffusion model 기반의 아미노산 서열과 같은 입력을 통해 그럴듯한 구조를 생성한다. 하지만 이런 data-driven 접근은 thermodynamic properties를 모델링하지 못한다. 이런 thermodynamic properties를 모델링하기 위한 기존 연구에는 <a href="https://www.science.org/doi/10.1126/science.aaw1147">Boltzmann Generator</a>가 대표적이지만 기반의 energy landscape을 재현해내는데 어려움을 겪었다. 
+<p>AlphaFold3와 같은 generative model, 특히 diffusion model 기반의 아미노산 서열과 같은 입력을 통해 그럴듯한 구조를 생성한다. 하지만 이런 data-driven 접근은 thermodynamic properties를 모델링하지 못한다. 이런 thermodynamic properties를 모델링하기 위한 기존 연구에는 <a href="https://www.science.org/doi/10.1126/science.aaw1147">Boltzmann Generator</a>가 대표적이지만 기저의(underlying) energy landscape을 재현해내는데 어려움을 겪었다. 
 따라서 저자들은 diffusion model에 물리적인 피드백을 결합해 앙상블 생성을 강화하는 EBA(Energy-based Alignment) 방식을 제안한다. 
 Pre-trained된 all-atom 모델은 생성 과정에서 force field으로부터 피드백을 수용한다. 이를 통해 diffusion model이 생성한 구조들은 물리적인 energy landscape과 정렬된다.</p>
 
@@ -396,51 +396,87 @@ Pre-trained된 all-atom 모델은 생성 과정에서 force field으로부터 �
 <h2 id="direct-preference-optimization">Direct Preference Optimization</h2>
 <p>강화학습의 방식 중 하나로 사용자가 지정한 선호도 데이터 쌍을 통해 모델에 보상을 주어 학습하며 $Loss$ 함수는 다음과 같다.</p>
 
-\[\begin{equation}
-L_{DPO}(\theta)=-\mathbb{E}_{(c, x^w, x^l)\sim D}log(\alpha log\frac{p_\theta(x^w | c)}{p_{ref}(x^w|c)} - \alpha log\frac{p_\theta(x^l | c)}{p_{ref}(x^l|c)})
-\end{equation}\]
+\[L_{DPO}(\theta)=-\mathbb{E}_{(c, x^w, x^l)\sim D}\log \sigma(\alpha \log\frac{p_\theta(x^w | c)}{p_{ref}(x^w|c)} - \alpha \log\frac{p_\theta(x^l | c)}{p_{ref}(x^l|c)}) \tag{1}\]
 
-<p>이 때, $x^w$는 선호되는 데이터(결과물), $x^l$은 선호되지 않는 데이터(결과물)을 의미하며, $p_\theta(x \mid c)$는 학습을 진행하는 모델이 condition $c$에 따라 $x$를 생성할 확률, $p_{ref}(x \mid c)$는 이미 학습된 모델(해당 논문에서는 pre-trained model인 <a href="https://github.com/bytedance/Protenix"><strong>Protenix</strong></a>)이 condition $c$에 따라 $x$를 생성할 확률이다.<br />
+<p>이 때, $x^w$는 선호되는 데이터(결과물), $x^l$은 선호되지 않는 데이터(결과물)을 의미하며, $\sigma$는 sigmoid 함수, $p_\theta(x \mid c)$는 학습을 진행하는 모델이 condition $c$에 따라 $x$를 생성할 확률, $p_{ref}(x \mid c)$는 이미 학습된 모델(해당 논문에서는 pre-trained model인 <a href="https://github.com/bytedance/Protenix"><strong>Protenix</strong></a>)이 condition $c$에 따라 $x$를 생성할 확률이다.<br />
 위 $loss$ 함수를 살펴보면, 결국 선호되는 결과물에 대한 확률은 높이고 선호되지 않는 결과물의 확률은 낮추는 목적함수를 나타내고 있음을 알 수 있다. $p_{ref}(x \mid c)$는 pre-trained model의 학습된 정보를 어느 정도 유지하게 해주는 regularization term이라고 볼 수 있다.</p>
 
 <h1 id="method">Method</h1>
-<h2 id="energy-based-alignment">Energy-based Alignment</h2>
+<h2 id="1-energy-based-alignment">1. Energy-based Alignment</h2>
 <p align="center">
-  <img src="/assets/img/EBA/EBA-fig1.png" width="80%" />
+  <img src="/assets/img/EBA/EBA-fig1.png" width="90%" />
 </p>
 
-<p>아미노산 서열과 같은 조건 $c$가 주어졌을 때, 우리는 볼츠만 분포를 따르는 ${x^i}$를 샘플링해내는 것이 목표이다. 결국 $\beta \triangleq \frac{1}{k_BT}$일 때, $p_{B}(x \mid c)=\frac{e^{-\beta E(x;c)}}{Z}$를 알아내고 싶은 것인데, 존재할 수 있는 모든 상태를 알고 있지 않는 한 이는 불가능하다. 따라서 저자들은 정확한 $p_\theta(x \mid c)$를 모델링하는 것이 아닌 Boltzmann factor를 모델링하는 것을 목표한다.</p>
+<p>아미노산 서열과 같은 조건 $c$가 주어졌을 때, 우리는 Boltzmann distribution을 따르는 ${x^i}$를 샘플링해내는 것이 목표이다. 결국 $\beta \triangleq \frac{1}{k_BT}$일 때, $p_{B}(x \mid c)=\frac{e^{-\beta E(x;c)}}{Z}$를 알아내고 싶은 것인데, 존재할 수 있는 모든 상태를 알고 있지 않는 한 분배함수 $Z$의 계산은 불가능하다. 따라서 논문의 목표는 정확한 $p_B(x \mid c)$를 예측하는 것이 아닌 Boltzmann factor를 활용한다.</p>
 
-<p>Boltzmann factor란 두 상태의 확률의 비율이다: 
-\(\begin{equation}
-\frac{p_B(x^i \mid c)}{p_B(x^j \mid c)} = e^{-\beta \Delta E_{ij}}
-\end{equation}\)
-\(\begin{equation}
-\Delta E_{ij} = E(x^i;c) - E(x^j;c)
-\end{equation}\)</p>
+<p>Boltzmann factor란 두 상태의 확률의 비율이다:</p>
 
-<p>이를 위해 저자들은 cross entropy를 통해 확률분포 $p_\theta$를 모델링하는데, 아래와 같은 $L_{EBA}$를 제안한다.
-\(\begin{equation}
-L_{EBA} = -\mathbb{E}_{(c, \{x^i\}) \sim p^*}[\sum^{K}_{i=1}{\frac{e^{-\beta E(x^i ; c)}}{\sum^{K}_{j=1}{e^{-\beta E(x^j;c)}}}} log(\frac{e^{-\alpha E_{\theta}(x^i ; c)}}{\sum^{K}_{j=1}{e^{-\alpha E_{\theta}(x^j;c)}}})]
-\end{equation}\)
-이를 최소화함으로써 partition function의 부재로 인한 정확한 $p_\theta$는 알 수 없지만, Boltzmann factor는 따르는 확률분포 $p_\theta$를 모델링할 수 있게 된다.</p>
+\[\frac{p_B(x^i \mid c)}{p_B(x^j \mid c)} = e^{-\beta \Delta E_{ij}} \tag{2}\]
 
-<h2 id="eba-for-diffusion-models">EBA for Diffusion Models</h2>
+\[\Delta E_{ij} = E(x^i;c) - E(x^j;c) \tag{3}\]
 
-<h1 id="keypoints">Keypoints</h1>
-<h2 id="diffusion-based-generative-model--energy-based-alignment">Diffusion-based Generative Model + Energy-based Alignment</h2>
-<ul>
-  <li><strong>Boltzmann Factor</strong>: 분배함수 계산을 피하기 위해 두 구조의 에너지 차이를 활용</li>
-  <li><strong>Finite-state Approximation</strong>: 전체 분배함수 계산이 불가능하므로 미니배치 단위로 분배함수 계산</li>
-  <li><strong>Loss Function</strong>:</li>
-</ul>
+<p>EBA는 이 원리를 이용하여, 각 상태의 정규화되지 않은 Boltzmann weight($e^{-\beta E(x^i;c)}$)를 따르는 확률분포 $p_\theta$를 학습하는 것을 목표로 한다.</p>
+
+<p>이를 위해 저자들은 cross entropy를 통해 확률분포 $p_\theta$를 모델링하는데, 아래와 같은 $L_{EBA}$를 제안한다.</p>
+
+\[L_{EBA} = -\mathbb{E}_{(c, \{x^i\}) \sim p^*}[\sum^{K}_{i=1}{\frac{e^{-\beta E(x^i ; c)}}{\sum^{K}_{j=1}{e^{-\beta E(x^j;c)}}}} \log(\frac{e^{-\alpha E_{\theta}(x^i ; c)}}{\sum^{K}_{j=1}{e^{-\alpha E_{\theta}(x^j;c)}}})] \tag{4}\]
+
+<p>이를 최소화함으로써 partition function의 부재로 인한 정확한 $p_\theta$는 알 수 없지만, 각 구조의 Boltzmann weight를 따르는 확률분포 $p_\theta$를 모델링할 수 있게 된다.</p>
+
+<h2 id="2-eba-for-diffusion-models">2. EBA for Diffusion Models</h2>
+<p>이제 일반적인 EBA 프레임워크를 실제 확산 모델에 적용하기 위해, EBA 손실 함수(Eq. 4)에 필요한 ‘모델 에너지($E_\theta$)’ 항을 구체적으로 정의해야 한다.<br />
+모델의 에너지는 그 모델이 특정 결과를 생성할 확률에 기반한 negative log-likelihood로 정의된다. diffusion model은 노이즈($x_T$)부터 최종 구조($x_0$)까지의 단계를 거치므로, 에너지는 이 전체 생성 경로에 대한 평균적인 값으로 나타내야한다.<br />
+\(E_\theta = -\mathbb{E}_{p_\theta(x_{1:T} \mid c)}\log p_\theta(x_{0:T} \mid c) \tag{5}\)</p>
+
+<p>위 식은 모델의 역방향 과정($p_\theta$)를 샘플링해야 하므로 계산이 어렵다. 이 문제를 해결하기 위해, 논문에서는 다루기 힘든 역방향 과정을 계산이 용이한 정방향 과정($q$)로 대체하는 근사를 사용한다.<br />
+이 근사를 통해 모델 에너지는, 각 노이즈 제거 단계에서 모델의 예측($p_\theta$)이 이상적인 단계($q$)와 얼마나 다른지를 측정하는 KL-divergence의 합으로 정의된다.</p>
+
+\[E_{\theta}(x; c) = \sum_{t=1}^{T} \mathbb{E}_{q(x_t|x_0)}(\mathbb{D}_{KL}[q(x_{t-1}|x_{0,t}) || p_{\theta}(x_{t-1}|x_t, c)]) \tag{6}\]
+
+<p>Gaussian diffusion model에서는 이 항은 노이즈 예측 오차($\mid\mid\epsilon - \epsilon_{\theta}\mid\mid_2^2$)와 비례한다. 이 관계를 이용해 최종적으로 $L_{EBA-Diffusion}$을 얻을 수 있다.</p>
+
+\[\mathcal{L}_{EBA - Diffusion}(\theta) = -\mathbb{E}_{(c,\{x\}_{i=1}^{K})\sim D,t\sim\mathcal{U}(0,T),x_{t}^{i}\sim q(x_{t}^{i}|x_{0}^{i})} \left[ \sum_{i=1}^{K} \frac{e^{-\beta E(x^i;c)}}{\sum_{j=1}^{K}e^{-\beta E(x^j;c)}} \log \frac{e^{-\alpha T \left( ||\epsilon^i - \epsilon_{\theta}(x_t^i,t,c)||_2^2 \right)}}{\sum_{j=1}^{K}e^{-\alpha T \left( ||\epsilon^j - \epsilon_{\theta}(x_t^j,t,c)||_2^2 \right)}} \right] \tag{7}\]
+
+<p>자세한 유도과정은 논문을 참고하자. 결국 Eq. (4) 의 에너지 함수를 denoising 과정에서 예측된 노이즈를 통해 정의할 수 있다는 사실을 말하고 있다.</p>
+
+<h2 id="3-dpo-as-a-special-case-of-eba">3. DPO as a Special case of EBA</h2>
+<p>저자들은 기존의 DPO와 EBA가 어떻게 동치되는지 보인다. 특히 에너지를 EBA의 에너지 함수 대신 negative log-likelihood ratio로 정의하고, 미니배치의 크기를 $K = 2$, $\beta \rightarrow \infty$로 특수화했을 때 $L_{EBA}$가 $L_{DPO}$로 귀결된다.<br />
+먼저 Eq. (4) 에서 에너지를 $E_\theta(x;c) = -\log \frac{p_\theta(x \mid c)}{p_{ref}(x \mid c)}$로 정의하면 $p_{ref}$ 대비 얼마나 $p_\theta$를 선호하는지에 대한 에너지로 해석할 수 있다. 그 다음 Eq. (4) 에 대입하고 $K = 2$, $\beta \rightarrow \infty$의 조건을 활용하면 $L_{DPO}$와 동일해지는 것을 보일 수 있다.</p>
+
+<p align="center">
+  <img src="/assets/img/EBA/EBA-fig2.png" width="100%" />
+</p>
+
+<h2 id="4-fine-tuning-algorithm">4. Fine-tuning Algorithm</h2>
+<p align="center">
+  <img src="/assets/img/EBA/EBA-fig3.png" width="40%" />
+</p>
+
+<p>위 fine-tuning 알고리즘을 살펴보면 특정 서열 $c$에 해당하는 여러 구조 $x_0^i$(MD simulation)를 뽑은 뒤, 그 구조들로 Boltzmann weight $w(x_0^i)$를 계산한다. 여기까지가 최종적인 $Loss$함수 계산을 위한 정답을 얻어내는 과정이다. 그리고 각 구조에 노이즈를 추가하고 그를 예측하는 과정에서 $L_{total}$이 사용된다. 이렇게 얻은 $L_{total}$를 모델의 성능을 나타내는 오차항(즉, 모델 에너지 $E_\theta$에 비례하는 값)으로 사용하여($L_{EBA-Diffusion}$ 참조) 확률분포를 계산한 뒤, Boltzmann weight $w(x_0^i)$와의 cross entropy를 계산한다.</p>
+
+<h1 id="experiments">Experiments</h1>
+<h2 id="training-pipeline">Training Pipeline</h2>
+<p>저자들은 AlphaFold3의 구조를 사용한 <a href="https://github.com/bytedance/Protenix"><strong>Protenix</strong></a>)의 코드와 가중치를, 데이터셋으로는 <a href="https://www.dsimb.inserm.fr/ATLAS"><strong>ATLAS</strong></a>와 전처리 과정은 <a href="https://github.com/bjing2016/alphaflow"><strong>AlphaFlow</strong></a>를 따랐다. Diffusion Module을 fine-tuning하는 과정은 크게 두 가지 단계로 나뉜다.</p>
+
+<p><strong>1. Supervised Fine-tuning</strong><br />
+  첫 번째 단계에서는 pre-trained model의 Diffusion Module을 ATLAS 데이터로 학습한다. 특별히 다른 $loss$함수를 사용하지 않고 vanilla diffusion loss를 사용한다. 학습의 효율성을 위해 먼저 작은 크기($L \leq 384$)에 대해 학습한 후 큰 크기(($L \leq 768$)의 단백질에 대해 학습한다. 이 단계에서 모델은 ATLAS 데이터셋의 분포에 적응시키는 것이 목표이다.</p>
+
+<p><strong>2. Physical Alignment</strong><br />
+  두 번째 단계는 $L_{EBA-DPO}$와 $L_{EBA}$ 각각 두 가지 $loss$ 함수를 사용해 학습한다. 단순히 라벨링된(선호 / 비선호) 데이터로 학습하느냐, 여러 구조($K$개)의 에너지 값을 이용해 학습하느냐의 차이라고 볼 수 있다.</p>
+
+<h2 id="results">Results</h2>
+<p align="center">
+  <img src="/assets/img/EBA/EBA-fig4.png" width="100%" />
+</p>
+
+<p>AlphaFlow, AlphaFold2 with MSA subsampling, MDGen보다 더 나은 지표를 보여주고 있다.</p>
 
 <h1 id="limitations">Limitations</h1>
 <ol>
-  <li>AlphaFold3 구조의 모델을 사용했기 때문에 long time generation에 적합하지 않다.</li>
-  <li>Energy, 즉 forcefield의 정확도 문제.</li>
-  <li>Monomer만 가능.</li>
-  <li>다른 generative model의 가능성(flow matching 같은)</li>
+  <li>Folding을 위해 디자인된 AlphaFold3 구조의 모델을 사용했기 때문에 long time generation에 적합하지 않다.</li>
+  <li>Energy, 즉 forcefield의 정확도가 개선되어야할 필요가 있다.</li>
+  <li>Monomer만 가능하다.</li>
+  <li>다른 generative model의 가능성(flow matching 같은)을 확인해보지 않았다.</li>
 </ol>
 
 <h1 id="references">References</h1>
